@@ -21,7 +21,7 @@ Download the latest EnergyWebChain chainspec:
 ### 2.1 Verify SHA256 checksum ✔️
 
 ```
-echo "98631f030589a4e5819ea2b9655012781e371ee320bf9c60a9768e90ab8ebe5c EnergyWebChain.json" | sha256sum -c 
+echo "98631f030589a4e5819ea2b9655012781e371ee320bf9c60a9768e90ab8ebe5c EnergyWebChain.json" | sha256sum -c -
 ```
 
 **Output should be**: `EnergyWebChain.json: OK`
