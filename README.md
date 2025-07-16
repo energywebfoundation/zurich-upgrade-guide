@@ -40,7 +40,9 @@ echo "2bbdf8758f07cf3f33124dbde8fa66d31c169bcafc71e453e85035ca79ccfb7e EnergyWeb
 In case chainspec file of your node is specified via a custom path, please update it in apropriate place accordingly. 
 
   - For Nethermind client custom chainspec path must be specified using [Init.ChainSpecPath](https://docs.nethermind.io/1.31.0/fundamentals/configuration/#init-chainspecpath) option:
-  `nethermind --init-chainspecpath path/to/EnergyWebChain.json`
+```bash
+nethermind --init-chainspecpath path/to/EnergyWebChain.json
+```
 
 
 ## 3. Restart EVM Client 🚀
