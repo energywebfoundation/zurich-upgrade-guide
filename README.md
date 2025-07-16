@@ -15,10 +15,9 @@ Ensure node is running a Zurich-compatible client version:
 
 ## 2. Modify Chainspec file
   
-  - For Nethermind client, if you use flag based configuration, `nethermind -c energyweb` command will load new chainspec automatically. Once done you can proceed to point **3**
-  - If you use OpenEtherum client or have custom chainspec placement proceed with manual chainspec modification (points ***2.1-2.3***).
+If using Nethermind client with flag-based configuration, run `nethermind -c energyweb` to load the new chainspec automatically, then proceed to step **3**. Otherwise, follow **2.1–2.3** for manual updates.
 
-## 2.1 Manual download of new Chainspec 📥
+### 2.1 Manual download of new Chainspec 📥
 
 Download the latest EnergyWebChain chainspec:
   - [EnergyWebChain Chainspec](https://github.com/energywebfoundation/ewf-chainspec/blob/master/EnergyWebChain.json)
@@ -45,9 +44,40 @@ echo "5dedb25779a1f2d230fe8658651547e602076967b71f14d14fb984dbf38a9b3b EnergyWeb
     └── energyweb.json
 ```
 
-In case chainspec file of your node is placed in different folder, please update it accordingly. 
+In case chainspec file of your node is specified via a custom path, please update it in apropriate place accordingly. 
 
 
 ## 3. Restart EVM Client 🚀
 
 **Restart the EVM client service (Nethermind or OpenEthereum) to apply the upgrade changes.**
+
+## 4. Verify Upgrade ✅
+
+### 4.1 Check Client Version on running node
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  --data '{"jsonrpc":"2.0","method":"web3_clientVersion","params":[],"id":1}' \
+  http://localhost:8545
+```
+
+```bash
+# Resoinse of running node of OpenEthereum
+{"jsonrpc":"2.0","result":"OpenEthereum//v3.3.5-stable/x86_64-linux-musl/rustc1.59.0","id":1}
+
+# Resoinse of running node of Nethermind
+{"jsonrpc":"2.0","result":"Nethermind/v1.31.12+3b5f1ca5/linux-x64/dotnet9.0.6","id":1}
+
+```
+
+### 4.2 Network Sync Status ♾️
+
+```bash
+# Check sync status
+curl -X POST -H "Content-Type: application/json" \
+    --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' \
+    http://localhost:8545
+```
+
+If the response is `false`, the node is fully synced.
+If it returns an object with `startingBlock`, `currentBlock`, and `highestBlock`, the node is still syncing.
