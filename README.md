@@ -15,7 +15,7 @@ Ensure node is running a Zurich-compatible client version:
 
 ## 2. Modify Chainspec file
   
-If using Nethermind client with flag-based configuration, run `nethermind -c energyweb` to load the new chainspec automatically, then proceed to step **3**. Otherwise, follow **2.1–2.3** for manual updates.
+If using Nethermind client with flag-based configuration, run `nethermind -c energyweb` to load the new chainspec automatically, then proceed to step **3**. Otherwise, if you are using OpenEthereum or have customly placed chainspec please follow **2.1–2.3** for manual updates.
 
 ### 2.1 Manual download of new Chainspec 📥
 
