@@ -13,41 +13,69 @@ Ensure node is running a Zurich-compatible client version:
 - **OpenEthereum** client → upgrade to `v3.3.5`
   - https://github.com/openethereum/openethereum/releases/tag/v3.3.5 
 
-## 2. Download New Chainspec 📥
+## 2. Modify Chainspec file
+  
+If using Nethermind client with flag-based configuration, run `nethermind -c energyweb` to load the new chainspec automatically, then proceed to step **3**. Otherwise, if you are using OpenEthereum or have customly placed chainspec please follow **2.1–2.3** for manual updates.
+
+### 2.1 Manual download of new Chainspec 📥
 
 Download the latest EnergyWebChain chainspec:
   - [EnergyWebChain Chainspec](https://github.com/energywebfoundation/ewf-chainspec/blob/master/EnergyWebChain.json)
 
-### 2.1 Verify SHA256 checksum ✔️
+### 2.2 Verify SHA256 checksum ✔️
 
 ```
-echo "98631f030589a4e5819ea2b9655012781e371ee320bf9c60a9768e90ab8ebe5c EnergyWebChain.json" | sha256sum -c -
+echo "2bbdf8758f07cf3f33124dbde8fa66d31c169bcafc71e453e85035ca79ccfb7e EnergyWebChain.json" | sha256sum -c -
 ```
 
 **Output should be**: `EnergyWebChain.json: OK`
 
-### 2.2 Replace chainspec in appropriate directory:
+### 2.3 Replace chainspec in appropriate directory:
 
-  - For OpenEthereum client chainspec file normally can be found in config folder:
+  - For OpenEthereum client chainspec file normally can be found & replaced in config folder:
 ```bash
   ├── config
     ├── chainspec.json
 ```
+In case chainspec file of your node is specified via a custom path, please update it in apropriate place accordingly. 
 
-  - For Nethermind client:
+  - For Nethermind client custom chainspec path must be specified using [Init.ChainSpecPath](https://docs.nethermind.io/1.31.0/fundamentals/configuration/#init-chainspecpath) option:
 ```bash
-  ├── chainspec
-    └── energyweb.json
+nethermind --init-chainspecpath path/to/EnergyWebChain.json
 ```
-
-In case chainspec file of your node is placed in different folder, please update it accordingly. 
-
-  - For Nethermind client if you use flag based configuration:
-`--config NETWORK_NAME` for energyweb it is `--config energyweb`
-  
-In this case it is also recommended to validate the checksum. 
 
 
 ## 3. Restart EVM Client 🚀
 
 **Restart the EVM client service (Nethermind or OpenEthereum) to apply the upgrade changes.**
+
+## 4. Verify Upgrade ✅
+
+### 4.1 Check Client Version on running node
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  --data '{"jsonrpc":"2.0","method":"web3_clientVersion","params":[],"id":1}' \
+  http://localhost:8545
+```
+
+```bash
+# Response of running node of OpenEthereum
+{"jsonrpc":"2.0","result":"OpenEthereum//v3.3.5-stable/x86_64-linux-musl/rustc1.59.0","id":1}
+
+# Response of running node of Nethermind
+{"jsonrpc":"2.0","result":"Nethermind/v1.31.13+1b548727/linux-x64/dotnet9.0.7","id":1}
+
+```
+
+### 4.2 Network Sync Status ♾️
+
+```bash
+# Check sync status
+curl -X POST -H "Content-Type: application/json" \
+    --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' \
+    http://localhost:8545
+```
+
+If the response is `false`, the node is fully synced.
+If it returns an object with `startingBlock`, `currentBlock`, and `highestBlock`, the node is still syncing.
