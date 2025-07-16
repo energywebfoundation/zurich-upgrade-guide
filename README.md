@@ -32,19 +32,15 @@ echo "5dedb25779a1f2d230fe8658651547e602076967b71f14d14fb984dbf38a9b3b EnergyWeb
 
 ### 2.3 Replace chainspec in appropriate directory:
 
-  - For OpenEthereum client chainspec file normally can be found in config folder:
+  - For OpenEthereum client chainspec file normally can be found & replaced in config folder:
 ```bash
   ├── config
     ├── chainspec.json
 ```
-
-  - For Nethermind client:
-```bash
-  ├── chainspec
-    └── energyweb.json
-```
-
 In case chainspec file of your node is specified via a custom path, please update it in apropriate place accordingly. 
+
+  - For Nethermind client custom chainspec path must be specified using [Init.ChainSpecPath](https://docs.nethermind.io/1.31.0/fundamentals/configuration/#init-chainspecpath) option:
+  `nethermind --init-chainspecpath path/to/EnergyWebChain.json`
 
 
 ## 3. Restart EVM Client 🚀
@@ -62,10 +58,10 @@ curl -X POST -H "Content-Type: application/json" \
 ```
 
 ```bash
-# Resoinse of running node of OpenEthereum
+# Response of running node of OpenEthereum
 {"jsonrpc":"2.0","result":"OpenEthereum//v3.3.5-stable/x86_64-linux-musl/rustc1.59.0","id":1}
 
-# Resoinse of running node of Nethermind
+# Response of running node of Nethermind
 {"jsonrpc":"2.0","result":"Nethermind/v1.31.13+1b548727/linux-x64/dotnet9.0.7","id":1}
 
 ```
