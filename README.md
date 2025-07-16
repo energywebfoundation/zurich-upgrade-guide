@@ -13,20 +13,25 @@ Ensure node is running a Zurich-compatible client version:
 - **OpenEthereum** client → upgrade to `v3.3.5`
   - https://github.com/openethereum/openethereum/releases/tag/v3.3.5 
 
-## 2. Download New Chainspec 📥
+## 2. Modify Chainspec file
+  
+  - For Nethermind client, if you use flag based configuration, `nethermind -c energyweb` command will load new chainspec automatically. Once done you can proceed to point **3**
+  - If you use OpenEtherum client or have custom chainspec placement proceed with manual chainspec modification (points ***2.1-2.3***).
+
+## 2.1 Manual download of new Chainspec 📥
 
 Download the latest EnergyWebChain chainspec:
   - [EnergyWebChain Chainspec](https://github.com/energywebfoundation/ewf-chainspec/blob/master/EnergyWebChain.json)
 
-### 2.1 Verify SHA256 checksum ✔️
+### 2.2 Verify SHA256 checksum ✔️
 
 ```
-echo "98631f030589a4e5819ea2b9655012781e371ee320bf9c60a9768e90ab8ebe5c EnergyWebChain.json" | sha256sum -c -
+echo "5dedb25779a1f2d230fe8658651547e602076967b71f14d14fb984dbf38a9b3b EnergyWebChain.json" | sha256sum -c -
 ```
 
 **Output should be**: `EnergyWebChain.json: OK`
 
-### 2.2 Replace chainspec in appropriate directory:
+### 2.3 Replace chainspec in appropriate directory:
 
   - For OpenEthereum client chainspec file normally can be found in config folder:
 ```bash
@@ -41,11 +46,6 @@ echo "98631f030589a4e5819ea2b9655012781e371ee320bf9c60a9768e90ab8ebe5c EnergyWeb
 ```
 
 In case chainspec file of your node is placed in different folder, please update it accordingly. 
-
-  - For Nethermind client if you use flag based configuration:
-`--config NETWORK_NAME` for energyweb it is `--config energyweb`
-  
-In this case it is also recommended to validate the checksum. 
 
 
 ## 3. Restart EVM Client 🚀
